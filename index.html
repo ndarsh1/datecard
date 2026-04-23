@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DateCard — Stamford, CT Waitlist</title>
-<meta name="description" content="DateCard is coming to Stamford. Join the waitlist for the dating app that matches you around a real date, not just a conversation.">
-<meta property="og:title" content="DateCard — Coming to Stamford, CT">
+<title>Datecard — Stamford, CT Waitlist</title>
+<meta name="description" content="Datecard is coming to Stamford. Join the waitlist for the dating app that matches you around a real date, not just a conversation.">
+<meta property="og:title" content="Datecard — Coming to Stamford, CT">
 <meta property="og:description" content="Stop planning the perfect first message. Start planning the date.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -123,7 +123,32 @@ header{
   gap:10px;
   margin-bottom:14px;
 }
-.email-input{
+.phone-input-wrap{
+  flex:1;
+  display:flex;
+  align-items:center;
+  background:var(--bg-3);
+  border:1px solid var(--border);
+  border-radius:100px;
+  transition:border-color 0.2s;
+}
+.phone-input-wrap:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,155,78,0.12)}
+.phone-prefix{
+  padding-left:20px;
+  font-family:'Outfit',sans-serif;
+  font-size:15px;
+  font-weight:500;
+  color:var(--text-muted);
+  user-select:none;
+}
+.phone-input{
+  border:none !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  padding-left:8px !important;
+  border-radius:0 100px 100px 0 !important;
+}
+.text-input{
   flex:1;
   height:52px;
   background:var(--bg-3);
@@ -137,8 +162,14 @@ header{
   outline:none;
   transition:border-color 0.2s;
 }
-.email-input::placeholder{color:var(--text-muted)}
-.email-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,155,78,0.12)}
+.text-input::placeholder{color:var(--text-muted)}
+.text-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,155,78,0.12)}
+.code-input{
+  text-align:center;
+  letter-spacing:0.3em;
+  font-size:18px;
+  font-weight:500;
+}
 .submit-btn{
   height:52px;
   padding:0 28px;
@@ -151,11 +182,14 @@ header{
   font-weight:600;
   cursor:pointer;
   white-space:nowrap;
-  transition:background 0.18s, transform 0.12s;
+  transition:background 0.18s, transform 0.12s, opacity 0.18s;
 }
 .submit-btn:hover{background:var(--gold-light);transform:scale(1.02)}
 .submit-btn:active{transform:scale(0.98)}
+.submit-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
 .form-hint{font-size:12.5px;color:var(--text-muted)}
+.resend-link{color:var(--gold);text-decoration:none;cursor:pointer}
+.resend-link:hover{text-decoration:underline}
 .form-error{font-size:13px;color:var(--error);margin-top:8px;display:none}
 .form-error.show{display:block}
 .counter-line{
@@ -314,7 +348,9 @@ footer{
 @media(max-width:767px){
   #hero{min-height:calc(100vh - 61px);padding:48px 20px 64px}
   .form-row{flex-direction:column}
-  .email-input,.submit-btn{width:100%;border-radius:12px}
+  .phone-input-wrap,.text-input,.submit-btn{width:100%;border-radius:12px}
+  .phone-input-wrap{border-radius:12px}
+  .phone-input{border-radius:0 12px 12px 0 !important}
   .submit-btn{height:50px}
   .cards-grid{grid-template-columns:1fr;gap:14px}
   footer{flex-direction:column;gap:12px;text-align:center;padding:20px 24px}
@@ -336,28 +372,50 @@ footer{
       <em>Start planning the date.</em>
     </h1>
     <p class="subhead">
-      DateCard matches you with someone who already wants to do the same thing you do. Skip the small talk. Show up to a great date.
+      Datecard matches you with someone who already wants to do the same thing you do. Skip the small talk and simply show up to a great date.
     </p>
 
     <div class="form-wrap">
-      <form id="waitlist-form" data-endpoint="" novalidate>
+      <!-- Step 1: Phone number -->
+      <form id="phone-form" novalidate>
         <div class="form-row">
-          <label for="email" class="sr-only">Email address</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            class="email-input"
-            placeholder="your@email.com"
-            autocomplete="email"
-          >
-          <button type="submit" class="submit-btn">Join Waitlist</button>
+          <label for="phone" class="sr-only">Phone number</label>
+          <div class="phone-input-wrap">
+            <span class="phone-prefix">+1</span>
+            <input
+              type="text"
+              id="phone"
+              name="phone"
+              class="text-input phone-input"
+              placeholder="(555) 123-4567"
+              inputmode="tel"
+              maxlength="14"
+            >
+          </div>
+          <button type="submit" class="submit-btn" id="send-btn">Join Waitlist</button>
         </div>
         <p class="form-hint">Be among the first in Stamford to try it.</p>
-        <p class="form-error" id="form-error">Enter a valid email address.</p>
+        <p class="form-error" id="phone-error">Enter a valid 10-digit phone number.</p>
       </form>
 
-      <!-- TO WIRE UP: Replace localStorage mock in JS below with a fetch() POST to data-endpoint -->
+      <!-- Step 2: Verification code -->
+      <div id="verify-form" style="display:none">
+        <div class="form-row">
+          <label for="code" class="sr-only">Verification code</label>
+          <input
+            type="text"
+            id="code"
+            name="code"
+            class="text-input code-input"
+            placeholder="000000"
+            inputmode="numeric"
+            maxlength="6"
+          >
+          <button type="button" class="submit-btn" id="verify-btn">Verify</button>
+        </div>
+        <p class="form-hint">We texted a code to your number. <a href="#" id="resend-link" class="resend-link">Resend</a></p>
+        <p class="form-error" id="verify-error">Invalid code. Please try again.</p>
+      </div>
 
       <div class="success-state" id="success-state">
         <div class="check-circle">
@@ -366,18 +424,18 @@ footer{
           </svg>
         </div>
         <p class="success-title">You're on the list.</p>
-        <p class="success-sub">We'll reach out when DateCard goes live in Stamford.</p>
+        <p class="success-sub">We'll reach out when Datecard goes live in Stamford.</p>
       </div>
 
       <div class="counter-line" id="counter-line">
         <span class="counter-dot"></span>
-        <span><span class="counter-num" id="counter-num">847</span> people on the waitlist</span>
+        <span><span class="counter-num" id="counter-num">--</span> people on the waitlist</span>
       </div>
     </div>
   </section>
 
   <section id="value-props">
-    <p class="section-eyebrow" id="vp-eyebrow">Why DateCard</p>
+    <p class="section-eyebrow" id="vp-eyebrow">Why Datecard</p>
     <div class="cards-grid">
 
       <div class="vcard">
@@ -390,7 +448,7 @@ footer{
           </svg>
         </div>
         <h2 class="vcard-title">The date is already decided</h2>
-        <p class="vcard-text">When you match on DateCard, both of you already said yes to the same experience. No more "so what do you want to do?"</p>
+        <p class="vcard-text">When you match on Datecard, both of you already said yes to the same experience. No more "so what do you want to do?"</p>
       </div>
 
       <div class="vcard">
@@ -402,7 +460,7 @@ footer{
           </svg>
         </div>
         <h2 class="vcard-title">Real places in Stamford</h2>
-        <p class="vcard-text">Every date idea is a real local venue or activity, curated specifically for Stamford. No generic suggestions — only places worth going to.</p>
+        <p class="vcard-text">Every date idea is a real local venue or activity, curated specifically for Stamford.</p>
       </div>
 
       <div class="vcard">
@@ -434,9 +492,10 @@ footer{
 </main>
 
 <footer>
-  <span class="footer-brand">DateCard</span>
-  <span>&copy; 2026 DateCard. All rights reserved.</span>
+  <span class="footer-brand">Datecard</span>
+  <span>&copy; 2026 Datecard. All rights reserved.</span>
   <div class="footer-links">
+    <a href="mailto:hello@datecard.app">Contact</a>
     <a href="#">Privacy Policy</a>
     <a href="#">Terms</a>
   </div>
@@ -444,54 +503,127 @@ footer{
 
 <script>
 (function(){
-  var STORAGE_KEY = 'datecard_waitlist_email';
-  var COUNT_KEY   = 'datecard_waitlist_count';
-  var BASE_COUNT  = 847;
+  var STORAGE_KEY = 'datecard_waitlist_phone';
+  var counterEl = document.getElementById('counter-num');
+  var phoneForm = document.getElementById('phone-form');
+  var verifyForm = document.getElementById('verify-form');
+  var phoneError = document.getElementById('phone-error');
+  var verifyError = document.getElementById('verify-error');
+  var sendBtn = document.getElementById('send-btn');
+  var verifyBtn = document.getElementById('verify-btn');
+  var phoneInput = document.getElementById('phone');
+  var codeInput = document.getElementById('code');
+  var pendingPhone = '';
 
-  // Restore or init counter
-  var storedCount = parseInt(localStorage.getItem(COUNT_KEY)) || BASE_COUNT;
-  var counterEl   = document.getElementById('counter-num');
-  counterEl.textContent = storedCount.toLocaleString();
-
-  // Increment counter ~every 45s
-  setInterval(function(){
-    storedCount += 1;
-    localStorage.setItem(COUNT_KEY, storedCount);
-    counterEl.textContent = storedCount.toLocaleString();
-  }, 45000);
+  // Load real count from DB
+  fetch('/api/count')
+    .then(function(r){ return r.json(); })
+    .then(function(d){ counterEl.textContent = d.count.toLocaleString(); })
+    .catch(function(){ counterEl.textContent = '0'; });
 
   // If already signed up
   if(localStorage.getItem(STORAGE_KEY)){
     showSuccess();
   }
 
-  // Form submit
-  var form    = document.getElementById('waitlist-form');
-  var errEl   = document.getElementById('form-error');
-
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    var email = document.getElementById('email').value.trim();
-    var valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    if(!valid){
-      errEl.classList.add('show');
-      return;
-    }
-    errEl.classList.remove('show');
-    // TO WIRE UP: Replace with fetch() POST to form.dataset.endpoint
-    localStorage.setItem(STORAGE_KEY, email);
-    console.log('[DateCard] Waitlist signup:', email);
-    showSuccess();
+  // Format phone input as (XXX) XXX-XXXX
+  phoneInput.addEventListener('input', function(){
+    phoneError.classList.remove('show');
+    var digits = this.value.replace(/\D/g, '').slice(0, 10);
+    if(digits.length === 0){ this.value = ''; return; }
+    if(digits.length <= 3){ this.value = '(' + digits; }
+    else if(digits.length <= 6){ this.value = '(' + digits.slice(0,3) + ') ' + digits.slice(3); }
+    else { this.value = '(' + digits.slice(0,3) + ') ' + digits.slice(3,6) + '-' + digits.slice(6); }
   });
 
-  document.getElementById('email').addEventListener('input', function(){
-    errEl.classList.remove('show');
+  // Step 1: Send code
+  phoneForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var digits = phoneInput.value.replace(/\D/g, '');
+    if(digits.length !== 10){
+      phoneError.classList.add('show');
+      return;
+    }
+    phoneError.classList.remove('show');
+    pendingPhone = '+1' + digits;
+    sendBtn.disabled = true;
+    sendBtn.textContent = 'Sending...';
+
+    fetch('/api/send-code', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ phone: pendingPhone })
+    })
+    .then(function(r){ return r.json().then(function(d){ return {ok: r.ok, data: d}; }); })
+    .then(function(res){
+      if(!res.ok) throw new Error(res.data.error);
+      phoneForm.style.display = 'none';
+      verifyForm.style.display = 'block';
+      codeInput.focus();
+    })
+    .catch(function(err){
+      phoneError.textContent = err.message || 'Failed to send code. Try again.';
+      phoneError.classList.add('show');
+      sendBtn.disabled = false;
+      sendBtn.textContent = 'Join Waitlist';
+    });
+  });
+
+  // Only allow digits in code input
+  codeInput.addEventListener('input', function(){
+    verifyError.classList.remove('show');
+    this.value = this.value.replace(/\D/g, '').slice(0, 6);
+  });
+
+  // Step 2: Verify code
+  verifyBtn.addEventListener('click', function(){
+    var code = codeInput.value.trim();
+    if(code.length !== 6){
+      verifyError.classList.add('show');
+      return;
+    }
+    verifyError.classList.remove('show');
+    verifyBtn.disabled = true;
+    verifyBtn.textContent = 'Verifying...';
+
+    fetch('/api/verify-code', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ phone: pendingPhone, code: code })
+    })
+    .then(function(r){ return r.json().then(function(d){ return {ok: r.ok, data: d}; }); })
+    .then(function(res){
+      if(!res.ok) throw new Error(res.data.error);
+      localStorage.setItem(STORAGE_KEY, pendingPhone);
+      if(res.data.count) counterEl.textContent = res.data.count.toLocaleString();
+      showSuccess();
+    })
+    .catch(function(err){
+      verifyError.textContent = err.message || 'Invalid code. Please try again.';
+      verifyError.classList.add('show');
+      verifyBtn.disabled = false;
+      verifyBtn.textContent = 'Verify';
+    });
+  });
+
+  // Resend
+  document.getElementById('resend-link').addEventListener('click', function(e){
+    e.preventDefault();
+    this.textContent = 'Sending...';
+    var link = this;
+    fetch('/api/send-code', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ phone: pendingPhone })
+    })
+    .then(function(){ link.textContent = 'Sent!'; setTimeout(function(){ link.textContent = 'Resend'; }, 3000); })
+    .catch(function(){ link.textContent = 'Resend'; });
   });
 
   function showSuccess(){
-    form.style.display = 'none';
-    var s = document.getElementById('success-state');
-    s.classList.add('show');
+    phoneForm.style.display = 'none';
+    verifyForm.style.display = 'none';
+    document.getElementById('success-state').classList.add('show');
   }
 
   // Scroll animations for value prop cards
