@@ -1,6 +1,4 @@
-const { createPool } = require('@vercel/postgres');
-
-const pool = createPool({ connectionString: process.env.DATABASE_URL });
+const { sql } = require('@vercel/postgres');
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -8,7 +6,7 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    await pool.sql`
+    await sql`
       CREATE TABLE IF NOT EXISTS waitlist (
         id SERIAL PRIMARY KEY,
         phone VARCHAR(20) UNIQUE NOT NULL,
@@ -16,7 +14,7 @@ module.exports = async function handler(req, res) {
       )
     `;
 
-    const { rows } = await pool.sql`SELECT COUNT(*)::int as count FROM waitlist`;
+    const { rows } = await sql`SELECT COUNT(*)::int as count FROM waitlist`;
 
     return res.status(200).json({ count: rows[0].count });
   } catch (err) {

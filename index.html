@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Datecard — Stamford, CT Waitlist</title>
+<title>Datecard Waitlist</title>
 <meta name="description" content="Datecard is coming to Stamford. Join the waitlist for the dating app that matches you around a real date, not just a conversation.">
 <meta property="og:title" content="Datecard — Coming to Stamford, CT">
 <meta property="og:description" content="Stop planning the perfect first message. Start planning the date.">
@@ -169,6 +169,8 @@ header{
   letter-spacing:0.3em;
   font-size:18px;
   font-weight:500;
+  min-height:52px;
+  height:52px !important;
 }
 .submit-btn{
   height:52px;
@@ -209,7 +211,7 @@ header{
   animation:dotPulse 2.4s ease-in-out infinite;
 }
 @keyframes dotPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.55;transform:scale(0.85)}}
-.counter-num{color:var(--text);font-weight:500}
+.counter-num{color:var(--text);font-weight:500;margin-right:4px}
 
 /* Success state */
 .success-state{
@@ -332,8 +334,8 @@ footer{
   font-size:12.5px;
   color:var(--text-muted);
 }
-.footer-brand{font-weight:500;color:var(--text);font-size:14px}
-.footer-links{display:flex;gap:20px}
+.footer-brand{font-weight:500;color:var(--text);font-size:14px;flex:1}
+.footer-links{display:flex;gap:20px;flex:1;justify-content:flex-end}
 .footer-links a{color:var(--text-muted);text-decoration:none;transition:color 0.15s}
 .footer-links a:hover{color:var(--text)}
 
@@ -348,7 +350,7 @@ footer{
 @media(max-width:767px){
   #hero{min-height:calc(100vh - 61px);padding:48px 20px 64px}
   .form-row{flex-direction:column}
-  .phone-input-wrap,.text-input,.submit-btn{width:100%;border-radius:12px}
+  .phone-input-wrap,.text-input,.submit-btn,.code-input{width:100%;border-radius:12px;height:52px}
   .phone-input-wrap{border-radius:12px}
   .phone-input{border-radius:0 12px 12px 0 !important}
   .submit-btn{height:50px}
@@ -372,7 +374,7 @@ footer{
       <em>Start planning the date.</em>
     </h1>
     <p class="subhead">
-      Datecard matches you with someone who already wants to do the same thing you do. Skip the small talk and simply show up to a great date.
+      Datecard matches you with someone who already wants to do the same thing you do. Skip the small talk and simply just show up to a great date.
     </p>
 
     <div class="form-wrap">
