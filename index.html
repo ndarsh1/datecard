@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DateCard — Stamford, CT Waitlist</title>
+<meta name="description" content="DateCard is coming to Stamford. Join the waitlist for the dating app that matches you around a real date, not just a conversation.">
+<meta property="og:title" content="DateCard — Coming to Stamford, CT">
+<meta property="og:description" content="Stop planning the perfect first message. Start planning the date.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0E0D0B;
+  --bg-2:#161410;
+  --bg-3:#1E1B17;
+  --text:#F2EDE4;
+  --text-muted:#9A9286;
+  --gold:#C89B4E;
+  --gold-light:#E8BE76;
+  --border:rgba(242,237,228,0.08);
+  --border-hover:rgba(242,237,228,0.16);
+  --error:#D4856A;
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Outfit',sans-serif;
+  font-weight:400;
+  line-height:1.6;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+
+/* Background texture */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:radial-gradient(circle,rgba(200,155,78,0.055) 1px,transparent 1px);
+  background-size:28px 28px;
+  pointer-events:none;
+  z-index:0;
+  animation:texturePulse 8s ease-in-out infinite;
+}
+@keyframes texturePulse{
+  0%,100%{opacity:1}
+  50%{opacity:1.7}
+}
+
+/* Top bar */
+header{
+  position:relative;
+  z-index:10;
+  padding:20px 24px;
+  text-align:center;
+  border-bottom:1px solid var(--border);
+  opacity:0;
+  animation:fadeUp 0.5s ease-out 0s forwards;
+}
+.top-bar-text{
+  font-family:'Outfit',sans-serif;
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:0.18em;
+  color:var(--gold);
+  text-transform:uppercase;
+}
+
+/* Hero */
+#hero{
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:calc(100vh - 65px);
+  padding:60px 24px 80px;
+  text-align:center;
+}
+.headline{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(2.4rem,5.5vw,4.2rem);
+  font-weight:400;
+  line-height:1.12;
+  letter-spacing:-0.02em;
+  max-width:700px;
+  margin:0 auto 24px;
+  opacity:0;
+  animation:fadeUp 0.55s ease-out 0.15s forwards;
+}
+.headline em{
+  font-style:italic;
+  color:var(--gold);
+}
+.subhead{
+  font-size:clamp(1rem,2vw,1.1rem);
+  font-weight:300;
+  color:var(--text-muted);
+  max-width:460px;
+  margin:0 auto 40px;
+  line-height:1.7;
+  opacity:0;
+  animation:fadeUp 0.55s ease-out 0.3s forwards;
+}
+
+/* Form */
+.form-wrap{
+  width:100%;
+  max-width:500px;
+  margin:0 auto;
+  opacity:0;
+  animation:fadeUp 0.55s ease-out 0.45s forwards;
+}
+.form-row{
+  display:flex;
+  gap:10px;
+  margin-bottom:14px;
+}
+.email-input{
+  flex:1;
+  height:52px;
+  background:var(--bg-3);
+  border:1px solid var(--border);
+  border-radius:100px;
+  padding:0 22px;
+  font-family:'Outfit',sans-serif;
+  font-size:15px;
+  font-weight:400;
+  color:var(--text);
+  outline:none;
+  transition:border-color 0.2s;
+}
+.email-input::placeholder{color:var(--text-muted)}
+.email-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,155,78,0.12)}
+.submit-btn{
+  height:52px;
+  padding:0 28px;
+  background:var(--gold);
+  color:#0E0D0B;
+  border:none;
+  border-radius:100px;
+  font-family:'Outfit',sans-serif;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:background 0.18s, transform 0.12s;
+}
+.submit-btn:hover{background:var(--gold-light);transform:scale(1.02)}
+.submit-btn:active{transform:scale(0.98)}
+.form-hint{font-size:12.5px;color:var(--text-muted)}
+.form-error{font-size:13px;color:var(--error);margin-top:8px;display:none}
+.form-error.show{display:block}
+.counter-line{
+  margin-top:16px;
+  font-size:13px;
+  color:var(--text-muted);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+}
+.counter-dot{
+  width:7px;height:7px;
+  border-radius:50%;
+  background:var(--gold);
+  display:inline-block;
+  animation:dotPulse 2.4s ease-in-out infinite;
+}
+@keyframes dotPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.55;transform:scale(0.85)}}
+.counter-num{color:var(--text);font-weight:500}
+
+/* Success state */
+.success-state{
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+  opacity:0;
+  transform:scale(0.97);
+  animation:successIn 0.4s ease-out 0s forwards;
+}
+.success-state.show{display:flex}
+@keyframes successIn{to{opacity:1;transform:scale(1)}}
+.check-circle{
+  width:52px;height:52px;
+  border-radius:50%;
+  border:2px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  animation:checkDraw 0.5s ease-out 0.1s both;
+}
+@keyframes checkDraw{from{transform:scale(0.5);opacity:0}to{transform:scale(1);opacity:1}}
+.check-circle svg{stroke:var(--gold)}
+.success-title{font-family:'DM Serif Display',serif;font-size:1.5rem}
+.success-sub{color:var(--text-muted);font-size:14px;max-width:320px;text-align:center}
+
+/* Value props */
+#value-props{
+  position:relative;z-index:1;
+  padding:80px 24px;
+  max-width:1000px;
+  margin:0 auto;
+}
+.section-eyebrow{
+  text-align:center;
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:48px;
+  opacity:0;
+  transition:opacity 0.5s, transform 0.5s;
+  transform:translateY(14px);
+}
+.cards-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+}
+.vcard{
+  background:var(--bg-2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:28px 24px 24px;
+  position:relative;
+  overflow:hidden;
+  transition:transform 0.2s ease, border-color 0.2s;
+  opacity:0;
+  transform:translateY(16px);
+}
+.vcard::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:2px;
+  background:var(--gold);
+  opacity:0.5;
+  transition:opacity 0.2s;
+}
+.vcard:hover{transform:translateY(-2px);border-color:var(--border-hover)}
+.vcard:hover::before{opacity:1}
+.vcard.visible{opacity:1;transform:translateY(0);transition:opacity 0.5s ease,transform 0.5s ease}
+.vcard-icon{margin-bottom:18px}
+.vcard-title{font-family:'DM Serif Display',serif;font-size:1.2rem;margin-bottom:10px}
+.vcard-text{font-size:14px;color:var(--text-muted);line-height:1.65;font-weight:300}
+
+/* Venues */
+#venues{
+  position:relative;z-index:1;
+  text-align:center;
+  padding:60px 24px 80px;
+  border-top:1px solid var(--border);
+}
+.venues-label{
+  font-size:13px;
+  font-weight:500;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--text-muted);
+  margin-bottom:28px;
+}
+.venue-chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+  margin-bottom:20px;
+}
+.chip{
+  padding:8px 18px;
+  border:1px solid var(--border);
+  border-radius:100px;
+  font-size:13.5px;
+  font-weight:400;
+  color:var(--text-muted);
+  transition:border-color 0.15s, color 0.15s;
+  cursor:default;
+}
+.chip:hover{border-color:var(--border-hover);color:var(--text)}
+.venues-sub{font-size:13px;color:var(--text-muted);font-weight:300}
+
+/* Footer */
+footer{
+  position:relative;z-index:1;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:20px 36px;
+  border-top:1px solid var(--border);
+  font-size:12.5px;
+  color:var(--text-muted);
+}
+.footer-brand{font-weight:500;color:var(--text);font-size:14px}
+.footer-links{display:flex;gap:20px}
+.footer-links a{color:var(--text-muted);text-decoration:none;transition:color 0.15s}
+.footer-links a:hover{color:var(--text)}
+
+/* Animations */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.eyebrow-visible{opacity:1 !important;transform:translateY(0) !important;transition:opacity 0.5s ease,transform 0.5s ease !important}
+
+/* Responsive */
+@media(max-width:767px){
+  #hero{min-height:calc(100vh - 61px);padding:48px 20px 64px}
+  .form-row{flex-direction:column}
+  .email-input,.submit-btn{width:100%;border-radius:12px}
+  .submit-btn{height:50px}
+  .cards-grid{grid-template-columns:1fr;gap:14px}
+  footer{flex-direction:column;gap:12px;text-align:center;padding:20px 24px}
+  .footer-links{justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <p class="top-bar-text">Stamford, CT &mdash; Coming Soon</p>
+</header>
+
+<main>
+  <section id="hero">
+    <h1 class="headline">
+      Stop planning the<br>
+      perfect first message.<br>
+      <em>Start planning the date.</em>
+    </h1>
+    <p class="subhead">
+      DateCard matches you with someone who already wants to do the same thing you do. Skip the small talk. Show up to a great date.
+    </p>
+
+    <div class="form-wrap">
+      <form id="waitlist-form" data-endpoint="" novalidate>
+        <div class="form-row">
+          <label for="email" class="sr-only">Email address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="email-input"
+            placeholder="your@email.com"
+            autocomplete="email"
+          >
+          <button type="submit" class="submit-btn">Join Waitlist</button>
+        </div>
+        <p class="form-hint">Be among the first in Stamford to try it.</p>
+        <p class="form-error" id="form-error">Enter a valid email address.</p>
+      </form>
+
+      <!-- TO WIRE UP: Replace localStorage mock in JS below with a fetch() POST to data-endpoint -->
+
+      <div class="success-state" id="success-state">
+        <div class="check-circle">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="4 11 9 16 18 7"/>
+          </svg>
+        </div>
+        <p class="success-title">You're on the list.</p>
+        <p class="success-sub">We'll reach out when DateCard goes live in Stamford.</p>
+      </div>
+
+      <div class="counter-line" id="counter-line">
+        <span class="counter-dot"></span>
+        <span><span class="counter-num" id="counter-num">847</span> people on the waitlist</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="value-props">
+    <p class="section-eyebrow" id="vp-eyebrow">Why DateCard</p>
+    <div class="cards-grid">
+
+      <div class="vcard">
+        <div class="vcard-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="rgba(200,155,78,0.9)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="8" width="24" height="18" rx="3"/>
+            <path d="M10 8V6M22 8V6"/>
+            <path d="M4 14h24"/>
+            <path d="M10 20h4M10 24h8"/>
+          </svg>
+        </div>
+        <h2 class="vcard-title">The date is already decided</h2>
+        <p class="vcard-text">When you match on DateCard, both of you already said yes to the same experience. No more "so what do you want to do?"</p>
+      </div>
+
+      <div class="vcard">
+        <div class="vcard-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="rgba(200,155,78,0.9)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="16" cy="14" r="5"/>
+            <path d="M16 4v2M16 22v2M4 14h2M24 14h2"/>
+            <path d="M8 26c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+          </svg>
+        </div>
+        <h2 class="vcard-title">Real places in Stamford</h2>
+        <p class="vcard-text">Every date idea is a real local venue or activity, curated specifically for Stamford. No generic suggestions — only places worth going to.</p>
+      </div>
+
+      <div class="vcard">
+        <div class="vcard-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="rgba(200,155,78,0.9)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 8h20v12a2 2 0 01-2 2H8a2 2 0 01-2-2V8z"/>
+            <path d="M12 22v4M20 22v4M8 26h16"/>
+            <path d="M11 14h2M19 14h2M15 14h2"/>
+          </svg>
+        </div>
+        <h2 class="vcard-title">A companion for the actual date</h2>
+        <p class="vcard-text">Our Lifeline feature gives you conversation prompts and mini-games if you ever hit a lull. We stay with you through the whole date.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="venues">
+    <p class="venues-label">Partnering with Stamford's best spots</p>
+    <div class="venue-chips">
+      <span class="chip">Rooftop Bars</span>
+      <span class="chip">Chef's Tables</span>
+      <span class="chip">Wine Tastings</span>
+      <span class="chip">Live Jazz</span>
+      <span class="chip">Outdoor Experiences</span>
+    </div>
+    <p class="venues-sub">Curated date packages launching with the app.</p>
+  </section>
+</main>
+
+<footer>
+  <span class="footer-brand">DateCard</span>
+  <span>&copy; 2026 DateCard. All rights reserved.</span>
+  <div class="footer-links">
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var STORAGE_KEY = 'datecard_waitlist_email';
+  var COUNT_KEY   = 'datecard_waitlist_count';
+  var BASE_COUNT  = 847;
+
+  // Restore or init counter
+  var storedCount = parseInt(localStorage.getItem(COUNT_KEY)) || BASE_COUNT;
+  var counterEl   = document.getElementById('counter-num');
+  counterEl.textContent = storedCount.toLocaleString();
+
+  // Increment counter ~every 45s
+  setInterval(function(){
+    storedCount += 1;
+    localStorage.setItem(COUNT_KEY, storedCount);
+    counterEl.textContent = storedCount.toLocaleString();
+  }, 45000);
+
+  // If already signed up
+  if(localStorage.getItem(STORAGE_KEY)){
+    showSuccess();
+  }
+
+  // Form submit
+  var form    = document.getElementById('waitlist-form');
+  var errEl   = document.getElementById('form-error');
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var email = document.getElementById('email').value.trim();
+    var valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if(!valid){
+      errEl.classList.add('show');
+      return;
+    }
+    errEl.classList.remove('show');
+    // TO WIRE UP: Replace with fetch() POST to form.dataset.endpoint
+    localStorage.setItem(STORAGE_KEY, email);
+    console.log('[DateCard] Waitlist signup:', email);
+    showSuccess();
+  });
+
+  document.getElementById('email').addEventListener('input', function(){
+    errEl.classList.remove('show');
+  });
+
+  function showSuccess(){
+    form.style.display = 'none';
+    var s = document.getElementById('success-state');
+    s.classList.add('show');
+  }
+
+  // Scroll animations for value prop cards
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.12});
+
+  document.querySelectorAll('.vcard').forEach(function(card, i){
+    card.style.transitionDelay = (i * 0.1) + 's';
+    observer.observe(card);
+  });
+
+  var eyeObserver = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add('eyebrow-visible');
+        eyeObserver.unobserve(e.target);
+      }
+    });
+  }, {threshold:0.3});
+  eyeObserver.observe(document.getElementById('vp-eyebrow'));
+})();
+</script>
+</body>
+</html>
