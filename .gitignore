@@ -1,1 +1,26 @@
 .vercel
+.DS_Store
+
+# Xcode
+xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+DerivedData/
+build/
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager
+.build/
+Packages/
+*.resolved
+
+# Secrets
+*.xcconfig
+
+# Node / Backend
+node_modules/
+backend/dist/
+.env
+.env.local
