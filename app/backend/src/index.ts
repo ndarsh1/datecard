@@ -12,6 +12,7 @@ import boardRoutes from "./routes/board";
 import bookingsRoutes from "./routes/bookings";
 import datesRoutes from "./routes/dates";
 import blockingRoutes from "./routes/blocking";
+import venueRoutes from "./routes/venues";
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -34,6 +35,7 @@ app.use("/api/v1/board", boardRoutes);
 app.use("/api/v1/bookings", bookingsRoutes);
 app.use("/api/v1/dates", datesRoutes);
 app.use("/api/v1/blocking", blockingRoutes);
+app.use("/api/v1/venues", venueRoutes);
 
 // Start server
 app.listen(PORT, () => {

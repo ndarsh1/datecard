@@ -9,6 +9,7 @@ final class DateModeViewModel: ObservableObject {
     @Published var currentPrompt: LifelinePrompt?
     @Published var isDateActive = false
     @Published var startTime: Date?
+    @Published var lastEndedMatchId: String?
 
     private var timer: AnyCancellable?
 
@@ -43,6 +44,7 @@ final class DateModeViewModel: ObservableObject {
 
     func endDate() {
         timer?.cancel()
+        lastEndedMatchId = activeMatch?.id
         activeMatch = nil
         isDateActive = false
         currentPrompt = nil

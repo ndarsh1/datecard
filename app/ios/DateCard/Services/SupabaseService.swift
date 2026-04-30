@@ -367,6 +367,59 @@ final class SupabaseService: ObservableObject {
             .execute()
     }
 
+    // MARK: - Venues
+
+    func fetchVenue(id: String) async throws -> (venue: Venue, packages: [VenuePackage]) {
+        let venue: Venue = try await client.from("venues")
+            .select()
+            .eq("id", value: id)
+            .single()
+            .execute()
+            .value
+
+        let packages: [VenuePackage] = try await client.from("venue_packages")
+            .select()
+            .eq("venue_id", value: id)
+            .eq("available", value: true)
+            .execute()
+            .value
+
+        return (venue, packages)
+    }
+
+    // MARK: - Bookings
+
+    func createBooking(venueId: String, packageId: String, amountCents: Int, matchId: String? = nil) async throws {
+        guard let userId = currentUser?.id else { return }
+        let data: [String: AnyJSON] = [
+            "venue_id": .string(venueId),
+            "package_id": .string(packageId),
+            "user_id": .string(userId),
+            "match_id": matchId.map { .string($0) } ?? .null,
+            "amount_cents": .integer(amountCents),
+            "status": .string("confirmed"),
+        ]
+        try await client.from("bookings")
+            .insert(data)
+            .execute()
+    }
+
+    // MARK: - Date Ratings
+
+    func submitDateRating(matchId: String, overallScore: Int, wouldGoAgain: Bool, feedbackText: String?) async throws {
+        guard let userId = currentUser?.id else { return }
+        let data: [String: AnyJSON] = [
+            "match_id": .string(matchId),
+            "rater_id": .string(userId),
+            "overall_score": .integer(overallScore),
+            "would_go_again": .bool(wouldGoAgain),
+            "feedback_text": feedbackText.map { .string($0) } ?? .null,
+        ]
+        try await client.from("date_ratings")
+            .insert(data)
+            .execute()
+    }
+
     // MARK: - Blocking & Reporting
 
     func blockUser(id: String) async throws {

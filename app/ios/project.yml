@@ -16,6 +16,12 @@ packages:
   StreamChatSwiftUI:
     url: https://github.com/GetStream/stream-chat-swiftui
     from: "4.0.0"
+  Mixpanel:
+    url: https://github.com/mixpanel/mixpanel-swift
+    from: "4.0.0"
+  Sentry:
+    url: https://github.com/getsentry/sentry-cocoa
+    from: "8.0.0"
 
 settings:
   base:
@@ -48,6 +54,10 @@ targets:
       - package: Kingfisher
       - package: StreamChatSwiftUI
         product: StreamChatSwiftUI
+      - package: Mixpanel
+        product: Mixpanel
+      - package: Sentry
+        product: Sentry
     resources:
       - DateCard/Resources/Assets.xcassets
       - DateCard/Resources/PrivacyInfo.xcprivacy
